@@ -40,30 +40,6 @@ class App(object):
         )
         return dedent(source_code)
 
-    def create_wsgi(self):
-        source_code = """\
-        #! /usr/bin/env python3
-        # -*- encoding: utf-8 -*-
-        import os
-        from app import create_app
-
-        app = create_app(os.getenv('FLASK_ENV', None))
-
-        if __name__ == '__main__':
-            app.run(host='0.0.0.0')
-        """
-        return dedent(source_code)
-
-    def create_config(self):
-        source_code = """\
-        #! /usr/bin/env python3
-        # -*- encoding: utf-8 -*-
-
-        class Config(object):
-            FLASK_ENV = 'development'
-        """
-        return dedent(source_code)
-
     def create_extension(self):
         source_code = """\
             {db}

@@ -34,9 +34,11 @@ class Extension(object):
     def create_header(self):
         import_db = ''
         import_cache = ''
-        if self.db:
+        if self.db == 'sqlalchemy':
             import_db = 'from flask_sqlalchemy import SQLAlchemy'
-        if self.cache:
+        if self.db == 'mongoengine':
+            import_db = 'from flask_mongoengine import MongoEngine'
+        if self.cache == 'redis':
             import_cache = 'from flask_redis import FlaskRedis'
         header = """
         {}
@@ -47,8 +49,10 @@ class Extension(object):
     def create_instance(self):
         instance_db = ''
         instance_cache = ''
-        if self.db:
+        if self.db == 'sqlalchemy':
             instance_db = 'db = SQLAlchemy()'
+        if self.db == 'mongoeingine':
+            instance_db = 'db = MongoEngine()'
         if self.cache:
             instance_cache = 'redis = FlaskRedis()'
         instance = """
@@ -58,4 +62,5 @@ class Extension(object):
         return instance.strip()
 
     def any_extension(self):
+        # TODO バグってる
         return self.db or self.cache

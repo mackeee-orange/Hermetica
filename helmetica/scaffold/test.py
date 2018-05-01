@@ -7,7 +7,7 @@ Test Scaffold
 __author__ = 'Yoshiya Ito <myon53@gmail.com>'
 __version__ = '1.0.0'
 __date__ = '2018-04-27'
-
+from textwrap import dedent
 
 class Test(object):
 
@@ -43,7 +43,7 @@ class Test(object):
             def authenticate(self, user=None):
                 pass
         """
-        return source_code
+        return dedent(source_code)
 
     def create_nose_cfg(self):
         source_code = """\
@@ -55,4 +55,4 @@ class Test(object):
         with-coverage=1
         cover-package=.
         """
-        return source_code
+        return dedent(source_code)
