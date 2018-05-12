@@ -39,7 +39,7 @@ class API(object):
         # -*- encoding: utf-8 -*-
         from flask_restful import Resource, fields, marshal_with, reqparse
 
-        resource_field = {{
+        resource_fields = {{
             'id': fields.Integer,
             'created_at': fields.DateTime,
             'updated_at': fields.DateTime,
@@ -52,19 +52,19 @@ class API(object):
 
             @marshal_with(resource_fields)
             def get(self, id=None):
-                args = self.post_parser.parse_args()
+                args = self.parser.parse_args()
                 if id is None:
                     return {{}}, 200
                 return [], 200
 
             @marshal_with(resource_fields)
             def post(self):
-                args = self.post_parser.parse_args()
+                args = self.parser.parse_args()
                 return {{}}, 201
 
             @marshal_with(resource_fields)
             def put(self, id=None):
-                args = self.post_parser.parse_args()
+                args = self.parser.parse_args()
                 return {{}}, 204
 
             @marshal_with(resource_fields)

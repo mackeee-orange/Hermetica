@@ -41,8 +41,8 @@ class Docker(object):
               - .:/app
             working_dir: "/app"
             environment:
-            FLASK_APP: "wsgi.py"
-            FLASK_DEBUG: "1"
+              FLASK_APP: "wsgi.py"
+              FLASK_DEBUG: "1"
             command: "flask run --host=0.0.0.0"
             links:
               - redis
@@ -64,8 +64,8 @@ class Docker(object):
               image: mysql:5.7
               command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
               environment:
-              MYSQL_DATABASE: "app_development"
-              MYSQL_ROOT_PASSWORD: "root"
+                MYSQL_DATABASE: "app_development"
+                MYSQL_ROOT_PASSWORD: "root"
               expose:
                 - "3306"
             """

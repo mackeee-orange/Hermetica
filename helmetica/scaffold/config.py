@@ -8,6 +8,7 @@ __author__ = 'Yoshiya Ito <myon53@gmail.com>'
 __version__ = '1.0.0'
 __date__ = '2018-05-01'
 from textwrap import dedent
+from inflector import Inflector
 
 
 class Config(object):
@@ -18,12 +19,15 @@ class Config(object):
         self.db = db
         self.cache = cache
 
-    def create__init__(self):
+    def create_config(self, name='config', env='test'):
         source_code = """\
         #! /usr/bin/env python3
         # -*- encoding: utf-8 -*-
 
-        class Config(object):
-            FLASK_ENV = 'development'
-        """
+        class {name}(object):
+            ENV = '{env}'
+        """.format(
+            name=Inflector().camelize(name),
+            env=env
+        )
         return dedent(source_code)
