@@ -13,6 +13,7 @@ When we try to build web applications by using flask web framework, there are to
 This fact make it difficult to implement apps that have simple architecture.
 In other words, because of too many manners, options, and patters, to implement more bigger applications is not so easy.
 (but, to implement small app by using flask is extreamly easy)
+
 Therefor, we try to implement the scaffold tools head for better architecture applications as mach as possible
 based on our many experiences.
 
