@@ -23,7 +23,7 @@ class Pipfile(object):
         system('pipenv lock')
 
     def create_pipfile(self):
-        source_code = """\
+        source_code = """
         [[source]]
 
         url = "https://pypi.python.org/simple"
@@ -47,10 +47,10 @@ class Pipfile(object):
             db=self.create_db(),
             cache=self.create_cache()
         )
-        return dedent(source_code)
+        return dedent(source_code).strip()
 
     def create_flask(self):
-        source_code = """\
+        source_code = """
         flask = "*"
         flask-restful = "*"
         gunicorn = "*"
@@ -58,7 +58,7 @@ class Pipfile(object):
         return source_code.strip()
 
     def create_nose(self):
-        source_code = """\
+        source_code = """
         nose = "*"
         coverage = "*"
         rednose = "*"
@@ -70,13 +70,13 @@ class Pipfile(object):
     def create_db(self):
         source_code = ''
         if self.db == 'sqlalchemy':
-            source_code = """\
+            source_code = """
         pymysql = "*"
         flask-sqlalchemy = "*"
         flask-migrate = "*"
             """
         if self.db == 'mongoengine':
-            source_code = """\
+            source_code = """
         pymongo = "*"
         mongoengine = "*"
             """
@@ -85,7 +85,7 @@ class Pipfile(object):
     def create_cache(self):
         source_code = ''
         if self.cache == 'redis':
-            source_code = """\
+            source_code = """
         redis = "*"
         flask-redis = "*"
             """

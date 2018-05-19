@@ -20,7 +20,7 @@ class Config(object):
         self.cache = cache
 
     def create_config(self, name='config', env='test'):
-        source_code = """\
+        source_code = """
         #! /usr/bin/env python3
         # -*- encoding: utf-8 -*-
 
@@ -30,4 +30,4 @@ class Config(object):
             name=Inflector().camelize(name),
             env=env
         )
-        return dedent(source_code)
+        return dedent(source_code).strip()

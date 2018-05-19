@@ -7,6 +7,8 @@ scaffold model
 __author__ = 'Yoshiya Ito <myon53@gmail.com>'
 __version__ = '1.0.0'
 __date__ = '2018-04-27'
+from textwrap import dedent
+from inflector import Inflector
 
 
 class Model(object):
@@ -17,7 +19,7 @@ class Model(object):
         self.db = db
 
     def create_sqlalchemy__init__(self):
-        source_code = """\
+        source_code = """
         #! /usr/bin/env python3
         # -*- encoding: utf-8 -*-
         from datetime import datetime
@@ -38,7 +40,7 @@ class Model(object):
             def updated_at(cls):
                 return db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
         """
-        return source_code
+        return dedent(source_code).strip()
 
     def create_sqlalchmey_model(self):
         pass

@@ -20,7 +20,7 @@ class API(object):
         self.name = name
 
     def create_restful__init__(self):
-        source_code = """\
+        source_code = """
         #! /usr/bin/env python3
         # -*- encoding: utf-8 -*-
         from flask import Blueprint
@@ -31,10 +31,10 @@ class API(object):
         api = Api(api_v1)
         api.add_resource(Root, '/')
         """
-        return dedent(source_code)
+        return dedent(source_code).strip()
 
     def create_restful(self):
-        source_code = """\
+        source_code = """
         #! /usr/bin/env python3
         # -*- encoding: utf-8 -*-
         from flask_restful import Resource, fields, marshal_with, reqparse
@@ -73,4 +73,4 @@ class API(object):
         """.format(
             name=Inflector().camelize(self.name)
         )
-        return dedent(source_code)
+        return dedent(source_code).strip()

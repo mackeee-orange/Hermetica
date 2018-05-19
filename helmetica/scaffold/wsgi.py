@@ -15,7 +15,7 @@ class WSGI(object):
     """
 
     def create_wsgi(self):
-        source_code = """\
+        source_code = """
         #! /usr/bin/env python3
         # -*- encoding: utf-8 -*-
         import os
@@ -26,4 +26,4 @@ class WSGI(object):
         if __name__ == '__main__':
             app.run(host='0.0.0.0')
         """
-        return dedent(source_code)
+        return dedent(source_code).strip()

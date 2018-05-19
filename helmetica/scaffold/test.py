@@ -12,7 +12,7 @@ from textwrap import dedent
 class Test(object):
 
     def create__init__(self):
-        source_code = """\
+        source_code = """
         #! /usr/bin/env python3
         # -*- encoding: utf-8 -*-
 
@@ -43,10 +43,10 @@ class Test(object):
             def authenticate(self, user=None):
                 pass
         """
-        return dedent(source_code)
+        return dedent(source_code).strip()
 
     def create_nose_cfg(self):
-        source_code = """\
+        source_code = """
         [nosetests]
         verbosity=2
         with-timer=1
@@ -55,4 +55,4 @@ class Test(object):
         with-coverage=1
         cover-package=.
         """
-        return dedent(source_code)
+        return dedent(source_code).strip()

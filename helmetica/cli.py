@@ -25,7 +25,7 @@ def main():
 @main.command()
 @click.option('--db', default=None, type=click.Choice(['sqlalchemy', 'mongoengine']), help='SQLAlchemy or Mongoengine or None')
 @click.option('--cache', default=None, type=click.Choice(['redis', 'memcached']), help='Redis or Memd or None')
-@click.option('--api', default=None, type=click.Choice(['rest', 'decorator']), help='Flask-Restful or Flask decorator')
+@click.option('--api', default=None, type=click.Choice(['restful', 'decorator', 'class']), help='Flask-Restful or Flask decorator or methodview')
 @click.option('--web', default='gunicorn', help='use gunicorn or others')
 @click.option('--virtualization', default=None, type=click.Choice(['docker', 'vagrant']), help='container or VM')
 def init(db, cache, api, web, virtualization):
@@ -47,6 +47,7 @@ def init(db, cache, api, web, virtualization):
 
     with open('./Pipfile', 'w') as f:
         f.write(pipfile.create_pipfile())
+        pipfile.lock()
 
     with open('app/__init__.py', 'w') as f:
         f.write(app.create_app__init__())
@@ -83,15 +84,17 @@ def init(db, cache, api, web, virtualization):
 
 @main.command()
 @click.argument('name', type=str, required=True)
+@click.option('--api', default=None, type=click.Choice(['restful', 'decorator', 'class']), help='Flask-Restful or Flask decorator or methodview')
 @click.option('--version', default='v1', help='API version')
-def api(name, version):
+def api(name, api, version):
     path = 'app/api/{}/{}.py'.format(version, name)
-    api = API(name=name)
+    api = API(api=api, name=name)
     with open(path, 'w') as f:
         f.write(api.create_restful())
 
 @main.command()
 @click.argument('name', type=str, required=True)
+@click.option('--db', default=None, type=click.Choice(['sqlalchemy', 'mongoengine']), help='SQLAlchemy or Mongoengine or None')
 def model(name):
     # モデルを勝手に作成出来るようにしたい
     click.echo('create model {}'.format(name))

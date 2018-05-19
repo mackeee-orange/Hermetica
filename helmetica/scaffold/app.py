@@ -20,11 +20,11 @@ class App(object):
         self.api = api
 
     def create_app__init__(self):
-        source_code = """\
+        source_code = """
         #! /usr/bin/env python3
         # -*- encoding: utf-8 -*-
         from flask import Flask
-        {}
+        {header}
 
         def create_app(env='development'):
             app = Flask(__name__)
@@ -36,22 +36,22 @@ class App(object):
             else:
                 app.config.from_object('config.development.Development')
 
-            {}
-            {}
+            {extension}
+            {api}
 
             return app
         """.format(
-            self.create_header(),
-            self.create_extension(),
-            self.create_api(),
+            header=self.create_header(),
+            extension=self.create_extension(),
+            api=self.create_api(),
         )
-        return dedent(source_code)
+        return dedent(source_code).strip()
 
     def create_header(self):
         import_db = ''
         import_cache = ''
         import_api = ''
-        if self.db == 'sqlalchemy' or self.db == 'mongoengine':
+        if self.db:
             import_db = 'from app.extensions import db'
         if self.cache == 'redis':
             import_cache = 'from app.extensions import redis'
@@ -66,26 +66,17 @@ class App(object):
         return header.strip()
 
     def create_extension(self):
-        source_code = """\
-            {db}
-            {cache}
-        """.format(
-            db=self.create_db(),
-            cache=self.create_cache(),
-        ).strip()
-        return source_code
-
-    def create_db(self):
+        create_db = ''
+        create_cache = ''
         if self.db:
-            return 'db.init_app(app)'
-        else:
-            return ''
-
-    def create_cache(self):
-        if self.cache:
-            return 'redis.init_app(app)'
-        else:
-            return ''
+            create_db = 'db.init_app(app)'
+        if self.cache == 'redis':
+            create_cache = 'redis.init_app(app)'
+        source_code = """
+            {}
+            {}
+        """.format(create_db, create_cache)
+        return source_code.strip()
 
     def create_api(self):
         if self.api:

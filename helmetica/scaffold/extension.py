@@ -19,7 +19,7 @@ class Extension(object):
         self.cache = cache
 
     def create_extensions(self):
-        source_code = """\
+        source_code = """
         #! /usr/bin/env python3
         # -*- encoding: utf-8 -*-
         {}
