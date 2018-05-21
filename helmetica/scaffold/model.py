@@ -18,6 +18,12 @@ class Model(object):
     def __init__(self, db):
         self.db = db
 
+    def create__init__(self):
+        if self.db == 'sqlalchemy':
+            return self.create_sqlalchemy__init__()
+        if self.db == 'mongoengine':
+            return self.create_mongoengine__init__()
+
     def create_sqlalchemy__init__(self):
         source_code = """
         #! /usr/bin/env python3
@@ -46,7 +52,23 @@ class Model(object):
         pass
 
     def create_mongoengine__init__(self):
-        pass
+        source_code = """
+        #! /usr/bin/env python3
+        # -*- encoding: utf-8 -*-
+        from datetime import datetime
+        from mongoengine import Document, DateTimeField
+
+        class Model(Document):
+            created_at = DateTimeField()
+            updated_at = DateTimeField(default=datetime.datetime.now)
+
+            def save(self, *args, **kwargs):
+                if not self.created_at:
+                    self.created_at = datetime.datetime.now()
+                self.updated_at = datetime.datetime.now()
+                return super(Model, self).save(*args, **kwargs)
+        """
+        return dedent(source_code).strip()
 
     def create_mongoengine__model(self):
         pass
