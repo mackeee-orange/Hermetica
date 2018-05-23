@@ -14,10 +14,10 @@ class App(object):
     """ App Scaffold
     """
 
-    def __init__(self, api=None, db=None, cache=None):
-        self.db = db
-        self.cache = cache
+    def __init__(self, api=None, db=None, redis=None):
         self.api = api
+        self.db = db
+        self.redis = redis
 
     def create_app__init__(self):
         source_code = """
@@ -49,12 +49,12 @@ class App(object):
 
     def create_header(self):
         import_db = ''
-        import_cache = ''
+        import_redis = ''
         import_api = ''
         if self.db:
             import_db = 'from app.extensions import db'
-        if self.cache == 'redis':
-            import_cache = 'from app.extensions import redis'
+        if self.redis == 'redis':
+            import_redis = 'from app.extensions import redis'
         if self.api:
             import_api = 'from app.api import api_v1'
 
@@ -62,20 +62,20 @@ class App(object):
         {}
         {}
         {}
-        """.format(import_db, import_cache, import_api)
+        """.format(import_db, import_redis, import_api)
         return header.strip()
 
     def create_extension(self):
         create_db = ''
-        create_cache = ''
+        create_redis = ''
         if self.db:
             create_db = 'db.init_app(app)'
-        if self.cache == 'redis':
-            create_cache = 'redis.init_app(app)'
+        if self.redis == 'redis':
+            create_redis = 'redis.init_app(app)'
         source_code = """
             {}
             {}
-        """.format(create_db, create_cache)
+        """.format(create_db, create_redis)
         return source_code.strip()
 
     def create_api(self):

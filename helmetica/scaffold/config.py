@@ -15,9 +15,9 @@ class Config(object):
     """ Config Scaffold
     """
 
-    def  __init__(self, db=None, cache=None):
+    def __init__(self, db=None, redis=None):
         self.db = db
-        self.cache = cache
+        self.redis = redis
 
     def create_config(self, name='config', env='test'):
         source_code = """
@@ -26,8 +26,31 @@ class Config(object):
 
         class {name}(object):
             ENV = '{env}'
+            {db}
+            {redis}
         """.format(
             name=Inflector().camelize(name),
-            env=env
+            env=env,
+            db=self.create_sqlalchemy(),
+            redis=self.create_redis(),
         )
         return dedent(source_code).strip()
+
+    def create_sqlalchemy(self):
+        source_code = ''
+        if self.db == 'sqlalchemy':
+            source_code = """
+            SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@db:3306/root?charset=utf8mb4'
+            SQLALCHEMY_TRACK_MODIFICATIONS = True
+            """
+        if self.db == 'mongoengine':
+            source_code = """
+            MONGODB_HOST = 'db'
+            MONGODB_PORT = 27017
+            MONGODB_DB = 'root'
+            """
+        return source_code
+
+    def create_redis(self):
+        if self.redis == 'redis':
+            return "REDIS_URL = 'redis://:@redis:6379/0'"

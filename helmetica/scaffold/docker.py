@@ -14,9 +14,9 @@ class Docker(object):
     """ Docker Scaffold
     """
 
-    def __init__(self, db=None, cache=None):
+    def __init__(self, db=None, redis=None):
         self.db = db
-        self.cache = cache
+        self.redis = redis
 
     def create_dockerfile(self):
         source_code = """
@@ -50,10 +50,10 @@ class Docker(object):
             ports:
               - "5000:5000"
           {db}
-          {cache}
+          {redis}
         """.format(
             db=self.create_db(),
-            cache=self.create_cache(),
+            redis=self.create_redis(),
         )
         return dedent(source_code).strip()
 
@@ -80,9 +80,9 @@ class Docker(object):
             """
         return source_code.strip()
 
-    def create_cache(self):
+    def create_redis(self):
         source_code = ''
-        if self.cache == 'redis':
+        if self.redis == 'redis':
             source_code = """
           redis:
             image: redis:3.2

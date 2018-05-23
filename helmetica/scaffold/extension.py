@@ -14,9 +14,9 @@ class Extension(object):
     """ Extension Scaffold
     """
 
-    def __init__(self, db=None, cache=None):
+    def __init__(self, db=None, redis=None):
         self.db = db
-        self.cache = cache
+        self.redis = redis
 
     def create_extensions(self):
         source_code = """
@@ -33,34 +33,30 @@ class Extension(object):
 
     def create_header(self):
         import_db = ''
-        import_cache = ''
+        import_redis = ''
         if self.db == 'sqlalchemy':
             import_db = 'from flask_sqlalchemy import SQLAlchemy'
         if self.db == 'mongoengine':
             import_db = 'from flask_mongoengine import MongoEngine'
-        if self.cache == 'redis':
-            import_cache = 'from flask_redis import FlaskRedis'
+        if self.redis == 'redis':
+            import_redis = 'from flask_redis import FlaskRedis'
         header = """
         {}
         {}
-        """.format(import_db, import_cache)
+        """.format(import_db, import_redis)
         return header.strip()
 
     def create_instance(self):
         instance_db = ''
-        instance_cache = ''
+        instance_redis = ''
         if self.db == 'sqlalchemy':
             instance_db = 'db = SQLAlchemy()'
         if self.db == 'mongoeingine':
             instance_db = 'db = MongoEngine()'
-        if self.cache:
-            instance_cache = 'redis = FlaskRedis()'
+        if self.redis:
+            instance_redis = 'redis = FlaskRedis()'
         instance = """
         {}
         {}
-        """.format(instance_db, instance_cache)
+        """.format(instance_db, instance_redis)
         return instance.strip()
-
-    def any_extension(self):
-        # TODO バグってる
-        return self.db or self.cache

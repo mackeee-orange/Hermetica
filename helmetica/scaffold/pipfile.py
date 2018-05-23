@@ -15,9 +15,9 @@ class Pipfile(object):
     """ Pipfile Scaffold
     """
 
-    def __init__(self, db=None, cache=None):
+    def __init__(self, db=None, redis=None):
         self.db = db
-        self.cache = cache
+        self.redis = redis
 
     def lock(self):
         system('pipenv lock')
@@ -36,7 +36,7 @@ class Pipfile(object):
         [packages]
         {flask}
         {db}
-        {cache}
+        {redis}
 
         [requires]
 
@@ -45,7 +45,7 @@ class Pipfile(object):
             flask=self.create_flask(),
             nose=self.create_nose(),
             db=self.create_db(),
-            cache=self.create_cache()
+            redis=self.create_redis()
         )
         return dedent(source_code).strip()
 
@@ -82,9 +82,9 @@ class Pipfile(object):
             """
         return source_code.strip()
 
-    def create_cache(self):
+    def create_redis(self):
         source_code = ''
-        if self.cache == 'redis':
+        if self.redis == 'redis':
             source_code = """
         redis = "*"
         flask-redis = "*"

@@ -15,14 +15,21 @@ class Model(object):
     """ Model Scaffold
     """
 
-    def __init__(self, db):
+    def __init__(self, db=None, name=None):
         self.db = db
+        self.name = name
 
     def create__init__(self):
         if self.db == 'sqlalchemy':
             return self.create_sqlalchemy__init__()
         if self.db == 'mongoengine':
             return self.create_mongoengine__init__()
+
+    def create_model(self):
+        if self.db == 'sqlalchemy':
+            return self.create_sqlalchmey_model()
+        if self.db == 'mongoengine':
+            return self.create_mongoengine_model()
 
     def create_sqlalchemy__init__(self):
         source_code = """
@@ -49,7 +56,17 @@ class Model(object):
         return dedent(source_code).strip()
 
     def create_sqlalchmey_model(self):
-        pass
+        source_code = """
+        #! /usr/bin/env python3
+        # -*- encoding: utf-8 -*-
+        from app.models import Model
+
+        class {name}(Model):
+            pass
+        """.format(
+            name=Inflector().camelize(self.name)
+        )
+        return dedent(source_code).strip()
 
     def create_mongoengine__init__(self):
         source_code = """
@@ -71,4 +88,14 @@ class Model(object):
         return dedent(source_code).strip()
 
     def create_mongoengine__model(self):
-        pass
+        source_code = """
+        #! /usr/bin/env python3
+        # -*- encoding: utf-8 -*-
+        from app.models import Model
+
+        class {name}(Model):
+            pass
+        """.format(
+            name=Inflector().camelize(self.name)
+        )
+        return dedent(source_code).strip()
