@@ -40,12 +40,12 @@ class Config(object):
         source_code = ''
         if self.db == 'sqlalchemy':
             source_code = """
-            SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@db:3306/root?charset=utf8mb4'
+            SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@db:3306/app_development?charset=utf8mb4'
             SQLALCHEMY_TRACK_MODIFICATIONS = True
             """
         if self.db == 'mongoengine':
             source_code = """
-            MONGODB_HOST = 'db'
+            MONGODB_HOST = 'app_development'
             MONGODB_PORT = 27017
             MONGODB_DB = 'root'
             """
