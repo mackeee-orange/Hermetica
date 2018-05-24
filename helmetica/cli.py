@@ -42,7 +42,7 @@ def init(api, db, decorator, redis, docker):
     pipfile = Pipfile(db=db, redis=redis)
     wsgi = WSGI(db=db)
     config = Config(db=db, redis=redis)
-    test = Test()
+    test = Test(db=db)
     extension = Extension(db=db, redis=redis)
     api = API(api=api, name='root')
     decorator = Decorator(name='root')
