@@ -19,18 +19,39 @@ class API(object):
         self.api = api
         self.name = name
 
+    def create__init__(self):
+        if self.api == 'restful':
+            return self.create_restful__init__()
+        if self.api == 'decorator':
+            return ''
+        if self.api == 'class':
+            return self.create_method_view__init__()
+
+    def create_api(self):
+        if self.api == 'restful':
+            return self.create_restful()
+        if self.api == 'decorator':
+            return self.create_decorator()
+        if self.api == 'class':
+            return self.create_method_view()
+
     def create_restful__init__(self):
+        name=Inflector().camelize(self.name)
         source_code = """
         #! /usr/bin/env python3
         # -*- encoding: utf-8 -*-
         from flask import Blueprint
         from flask_restful import Api
-        from app.api.v1.root import Root
+        from app.api.v1.{name} import {Name}
 
         api_v1 = Blueprint('api/v1', __name__)
         api = Api(api_v1)
-        api.add_resource(Root, '/')
-        """
+        api.add_resource({Name}, '/{names}/<int:id>')
+        """.format(
+            name=Inflector().underscore(self.name),
+            names=Inflector().pluralize(self.name),
+            Name=Inflector().camelize(self.name)
+        )
         return dedent(source_code).strip()
 
     def create_restful(self):
@@ -46,6 +67,7 @@ class API(object):
         }}
 
         class {name}(Resource):
+
             parser = reqparse.RequestParser()
             parser.add_argument('query', type=str, help="query string")
             parser.add_argument('body', type=str, help="body string")
@@ -72,5 +94,77 @@ class API(object):
                 return {{}}, 204
         """.format(
             name=Inflector().camelize(self.name)
+        )
+        return dedent(source_code).strip()
+
+    def create_method_view__init__(self):
+        source_code = """
+        #! /usr/bin/env python3
+        # -*- encoding: utf-8 -*-
+        from flask import Blueprint
+        from app.api.v1.{name} import {Name}
+
+        api_v1 = Blueprint('api/v1', __name__)
+        api_v1.add_url_rule('/{names}', view_func={Name}.as_view('{name}'), methods=['GET', 'POST', 'PUT', 'DELETE'])
+        """.format(
+            name=Inflector().underscore(self.name),
+            names=Inflector().pluralize(self.name),
+            Name=Inflector().camelize(self.name)
+        )
+        return dedent(source_code).strip()
+
+    def create_decorator(self):
+        instance = Inflector().underscore(self.name)
+        source_code = """
+        #! /usr/bin/env python3
+        # -*- encoding: utf-8 -*-
+        from flask import Blueprint
+
+        {instance} = Blueprint('{instances}', __name__)
+
+        @{instance}.route('{instances}/<:id>', methods=['GET'])
+        def get(id):
+            return 'GET'
+
+        @{instance}.route('{instances}/', methods=['POST'])
+        def post():
+            return 'POST'
+
+        @{instance}.route('{instances}/<:id>', methods=['PUT'])
+        def put(id):
+            return 'PUT'
+
+        @{instance}.route('{instances}/<:id>', methods=['DELETE'])
+        def delete(id):
+            return 'PUT'
+
+        """.format(
+            instance=instance,
+            instances=Inflector().pluralize(instance)
+        )
+        return dedent(source_code).strip()
+
+    def create_method_view(self):
+        source_code = """
+        #! /usr/bin/env python3
+        # -*- encoding: utf-8 -*-
+        from flask.views import MethodView
+
+        class {name}(MethodView):
+            def get(self, id=None):
+                if not id: return 'index'
+                return 'show'
+
+            def post(self):
+                return 'create'
+
+            def put(self, id):
+                return 'update'
+
+            def delete(self, id):
+                return 'delete'
+
+        """.format(
+            name=Inflector().camelize(self.name),
         )
         return dedent(source_code).strip()
