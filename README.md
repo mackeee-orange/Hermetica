@@ -33,7 +33,7 @@ pip install hermetica
 
 # Usage
 
-## Overview the usage
+### Overview the usage
 
 hermetica has some subcommands, to create scaffold api, decorator, model.
 
@@ -55,7 +55,7 @@ Commands:
   model      create model
 ```
 
-initialize your flask project.
+### initialize your flask project.
 
 ```
 → hermetica init --help
@@ -78,11 +78,18 @@ After create project scaffold, you will check `Pipfile` contents, if there are s
 add other packages into `Pipfile`, and lock your package.
 (We recommend you to use `pipenv` https://github.com/pypa/pipenv)
 
+Hermetica support docker. you can see `Dockerfile` and `docker-compose.yml` at your root of project.
+We recommend you to use docker-compose, it will helpful to separate from other projects.
+
 ```
 pipenv lock
+
+# if you set docker option, you can up the app container
+docker-compose build
+docker-compose up
 ```
 
-* add api to your flask project.
+### add api to your flask project.
 
 ```
 → hermetica api --help
@@ -98,7 +105,7 @@ Options:
   --help                          Show this message and exit.
 ```
 
-* add model to your flask project.
+### add model to your flask project.
 
 ```
 → hermetica model --help
@@ -111,7 +118,7 @@ Options:
   --help                         Show this message and exit.
 ```
 
-* add decorator to your flask project.
+### add decorator to your flask project.
 
 ```
 → hermetica decorator --help
@@ -131,9 +138,9 @@ we will grad if you send PRs...
 # See Before Wiki (Flask Best Practices)
 
 Why we apply broken change? Because, before repo source code is slightly trivial,
-and we believe this change will not cause negative impact to ohters.
+and we believe this change will not cause any negative impact to others.
 
 To create scaffold tools for flask will cause good affect the world rather than remain trivial code.
-But there are no warries. Flask-best-Practices contents (wiki docs) remain here (for japanese).
+But there are no warries. Flask-best-Practices contents (wiki docs) remain here (but only for japanese).
 
 https://github.com/yoshiya0503/Hermetica/wiki
