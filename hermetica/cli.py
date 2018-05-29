@@ -2,23 +2,23 @@
 # -*- encoding: utf-8 -*-
 """
 main.py
-helmetica main script
+hermetica main script
 """
 __author__ = 'Yoshiya Ito <myon53@gmail.com>'
 __version__ = '1.0.0'
 __date__ = '2018-04-24'
 import os
 import click
-from helmetica.scaffold.app import App
-from helmetica.scaffold.config import Config
-from helmetica.scaffold.wsgi import WSGI
-from helmetica.scaffold.api import API
-from helmetica.scaffold.model import Model
-from helmetica.scaffold.test import Test
-from helmetica.scaffold.docker import Docker
-from helmetica.scaffold.extension import Extension
-from helmetica.scaffold.pipfile import Pipfile
-from helmetica.scaffold.decorator import Decorator
+from hermetica.scaffold.app import App
+from hermetica.scaffold.config import Config
+from hermetica.scaffold.wsgi import WSGI
+from hermetica.scaffold.api import API
+from hermetica.scaffold.model import Model
+from hermetica.scaffold.test import Test
+from hermetica.scaffold.docker import Docker
+from hermetica.scaffold.extension import Extension
+from hermetica.scaffold.pipfile import Pipfile
+from hermetica.scaffold.decorator import Decorator
 
 @click.group()
 def main():
@@ -42,8 +42,8 @@ def init(api, db, decorator, redis, docker):
     pipfile = Pipfile(db=db, redis=redis)
     wsgi = WSGI(db=db)
     config = Config(db=db, redis=redis)
-    test = Test(db=db)
     extension = Extension(db=db, redis=redis)
+    test = Test(db=db, name='root')
     api = API(api=api, name='root')
     decorator = Decorator(name='root')
 

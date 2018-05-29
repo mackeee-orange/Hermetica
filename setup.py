@@ -13,8 +13,8 @@ from setuptools import setup
 #    readme = f.read()
 
 setup(
-    name='Helmetica',
-    version='0.0.1',
+    name='Hermetica',
+    version='1.0.0',
     description='scaffold command line interface for Flask application',
     #long_description=readme,
     author='Yoshiya Ito',
@@ -22,7 +22,7 @@ setup(
     url='https://github.com/yoshiya0503/Flask-Best-Practices.git',
     license='MIT',
     platforms='any',
-    packages=['helmetica', 'helmetica.scaffold'],
+    packages=['hermetica', 'hermetica.scaffold'],
     install_requires=[
         'click>=5.1',
         'Inflector>=2.0',
@@ -31,8 +31,6 @@ setup(
         'Environment :: Web Environment',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
@@ -40,6 +38,6 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        helmetica=helmetica.cli:main
+        hermetica=hermetica.cli:main
     '''
 )

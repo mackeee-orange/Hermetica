@@ -123,13 +123,19 @@ class Test(object):
                 {Name}Factory.create_batch(5)
 
             def something(self):
-                {name} = {Name}.query.first()
-                assert {name} is not None
+                pass
         """.format(
             name=Inflector().underscore(self.name),
             Name=Inflector().camelize(self.name)
         )
         return dedent(source_code).strip()
+
+    def create_factoryboy(self):
+        if self.db == 'sqlalchemy':
+            return self.create_sqlalchemy_factoryboy()
+        if self.db == 'mongoengine':
+            return self.create_mongoengine_factoryboy()
+        return ''
 
     def create_sqlalchemy_factoryboy(self):
         source_code = """
