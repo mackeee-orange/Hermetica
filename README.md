@@ -33,7 +33,79 @@ pip install hermetica
 
 # Usage
 
-comming soon
+```
+→ hermetica --help
+Usage: hermetica [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  api        create api
+  decorator  create decorator
+  init       initialize your flask app
+  model      create model
+```
+
+initialize your flask project.
+
+```
+→ hermetica init --help
+Usage: hermetica init [OPTIONS]
+
+  initialize your flask app
+
+Options:
+  --api [restful|decorator|class]
+                                  Flask-Restful or Flask decorator or
+                                  methodview
+  --db [sqlalchemy|mongoengine]   SQLAlchemy or Mongoengine or None
+  --decorator                     create decorator or None
+  --redis                         using Redis or None
+  --docker                        using container
+  --help                          Show this message and exit.
+```
+
+add api to your flask project.
+
+```
+→ hermetica api --help
+Usage: hermetica api [OPTIONS] NAME
+
+  create api
+
+Options:
+  --api [restful|decorator|class]
+                                  Flask-Restful or Flask decorator or
+                                  methodview
+  --version TEXT                  API version
+  --help                          Show this message and exit.
+```
+
+add model to your flask project.
+
+```
+→ hermetica model --help
+Usage: hermetica model [OPTIONS] NAME
+
+  create model
+
+Options:
+  --db [sqlalchemy|mongoengine]  SQLAlchemy or Mongoengine or None
+  --help                         Show this message and exit.
+```
+
+add decorator to your flask project.
+
+```
+→ hermetica decorator --help
+Usage: hermetica decorator [OPTIONS] NAME
+
+  create decorator
+
+Options:
+  --help  Show this message and exit.
+```
 
 # Development
 
