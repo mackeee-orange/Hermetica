@@ -31,6 +31,8 @@ def main():
 @click.option('--redis', default=False, is_flag=True, flag_value='redis', help='using Redis or None')
 @click.option('--docker', default=False, is_flag=True, flag_value='docker', help='using container')
 def init(api, db, decorator, redis, docker):
+    """ initialize your flask app
+    """
     dirs = ['./app/', './test/', './config/', './app/api/v1/', './app/models/']
     for dir in dirs:
         if os.path.exists(os.path.dirname(dir)):
@@ -98,6 +100,8 @@ def init(api, db, decorator, redis, docker):
 @click.option('--api', default='restful', type=click.Choice(['restful', 'decorator', 'class']), help='Flask-Restful or Flask decorator or methodview')
 @click.option('--version', default='v1', help='API version')
 def api(name, api, version):
+    """ create api
+    """
     path = 'app/api/{}/{}.py'.format(version, name)
     api = API(api=api, name=name)
     with open(path, 'w') as f:
@@ -107,6 +111,8 @@ def api(name, api, version):
 @click.argument('name', type=str, required=True)
 @click.option('--db', default='sqlalchemy', type=click.Choice(['sqlalchemy', 'mongoengine']), help='SQLAlchemy or Mongoengine or None')
 def model(name, db):
+    """ create model
+    """
     path = 'app/models/{}.py'.format(name)
     model = Model(db=db, name=name)
     with open(path, 'w') as f:
@@ -115,6 +121,8 @@ def model(name, db):
 @main.command()
 @click.argument('name', type=str, required=True)
 def decorator(name):
+    """ create decorator
+    """
     decorator = Decorator(name=name)
     with open('app/decorators.py', 'a') as f:
         f.write(decorator.create_decorator())

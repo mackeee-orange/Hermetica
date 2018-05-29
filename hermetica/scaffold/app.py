@@ -56,7 +56,7 @@ class App(object):
         if self.redis == 'redis':
             import_redis = 'from app.extensions import redis'
         if self.api:
-            import_api = 'from app.api import api_v1'
+            import_api = 'from app import api'
 
         header = """
         {}
@@ -79,7 +79,8 @@ class App(object):
         return source_code.strip()
 
     def create_api(self):
-        if self.api:
-            return "app.register_blueprint(api_v1, url_prefix='/api/v1')"
+        if self.api in ('restful', 'class'):
+            return "app.register_blueprint(api.api_v1, url_prefix='/api/v1')"
         else:
-            return ''
+            # TODO register dynamic api name
+            return "app.register_blueprint(api.root, url_prefix='/api/v1')"

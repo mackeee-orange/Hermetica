@@ -44,18 +44,36 @@ class Docker(object):
               FLASK_APP: "wsgi.py"
               FLASK_DEBUG: "1"
             command: "flask run --host=0.0.0.0"
-            links:
-              - redis
-              - db
             ports:
               - "5000:5000"
+            {links}
           {db}
           {redis}
         """.format(
+            links=self.create_links(),
             db=self.create_db(),
             redis=self.create_redis(),
         )
         return dedent(source_code).strip()
+
+    def create_links(self):
+        if self.db and self.redis:
+            return """
+            links:
+              - redis
+              - db
+            """.strip()
+        if self.db:
+            return """
+            links:
+              - db
+            """.strip()
+        if self.redis:
+            return """
+            links:
+              - redis
+            """.strip()
+        return ''
 
     def create_db(self):
         source_code = ''

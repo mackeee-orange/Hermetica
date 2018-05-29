@@ -23,7 +23,7 @@ class API(object):
         if self.api == 'restful':
             return self.create_restful__init__()
         if self.api == 'decorator':
-            return ''
+            return self.create_decorator__init__()
         if self.api == 'class':
             return self.create_method_view__init__()
 
@@ -46,7 +46,7 @@ class API(object):
 
         api_v1 = Blueprint('api/v1', __name__)
         api = Api(api_v1)
-        api.add_resource({Name}, '/{names}/<int:id>')
+        api.add_resource({Name}, '/{names}', '/{names}/<int:id>')
         """.format(
             name=Inflector().underscore(self.name),
             names=Inflector().pluralize(self.name),
@@ -105,42 +105,12 @@ class API(object):
         from app.api.v1.{name} import {Name}
 
         api_v1 = Blueprint('api/v1', __name__)
-        api_v1.add_url_rule('/{names}', view_func={Name}.as_view('{name}'), methods=['GET', 'POST', 'PUT', 'DELETE'])
+        api_v1.add_url_rule('/{names}', view_func={Name}.as_view('{name}'), methods=['GET', 'POST'])
+        api_v1.add_url_rule('/{names}/<int:id>', view_func={Name}.as_view('{name}'), methods=['GET', 'PUT', 'DELETE'])
         """.format(
             name=Inflector().underscore(self.name),
             names=Inflector().pluralize(self.name),
             Name=Inflector().camelize(self.name)
-        )
-        return dedent(source_code).strip()
-
-    def create_decorator(self):
-        instance = Inflector().underscore(self.name)
-        source_code = """
-        #! /usr/bin/env python3
-        # -*- encoding: utf-8 -*-
-        from flask import Blueprint
-
-        {instance} = Blueprint('{instances}', __name__)
-
-        @{instance}.route('{instances}/<:id>', methods=['GET'])
-        def get(id):
-            return 'GET'
-
-        @{instance}.route('{instances}/', methods=['POST'])
-        def post():
-            return 'POST'
-
-        @{instance}.route('{instances}/<:id>', methods=['PUT'])
-        def put(id):
-            return 'PUT'
-
-        @{instance}.route('{instances}/<:id>', methods=['DELETE'])
-        def delete(id):
-            return 'PUT'
-
-        """.format(
-            instance=instance,
-            instances=Inflector().pluralize(instance)
         )
         return dedent(source_code).strip()
 
@@ -162,9 +132,55 @@ class API(object):
                 return 'update'
 
             def delete(self, id):
-                return 'delete'
+                return 'destroy'
 
         """.format(
             name=Inflector().camelize(self.name),
+        )
+        return dedent(source_code).strip()
+
+    def create_decorator__init__(self):
+        instance = Inflector().underscore(self.name)
+        source_code = """
+        #! /usr/bin/env python3
+        # -*- encoding: utf-8 -*-
+        from app.api.v1.{instance} import {instance}
+        """.format(
+            instance=instance,
+        )
+        return dedent(source_code).strip()
+
+    def create_decorator(self):
+        instance = Inflector().underscore(self.name)
+        source_code = """
+        #! /usr/bin/env python3
+        # -*- encoding: utf-8 -*-
+        from flask import Blueprint
+
+        {instance} = Blueprint('{instances}', __name__)
+
+        @{instance}.route('/{instances}', methods=['GET'])
+        def index():
+            return 'index'
+
+        @{instance}.route('/{instances}/<int:id>', methods=['GET'])
+        def show(id):
+            return 'show'
+
+        @{instance}.route('/{instances}/', methods=['POST'])
+        def create():
+            return 'create'
+
+        @{instance}.route('/{instances}/<int:id>', methods=['PUT'])
+        def update(id):
+            return 'update'
+
+        @{instance}.route('/{instances}/<int:id>', methods=['DELETE'])
+        def destroy(id):
+            return 'destroy'
+
+        """.format(
+            instance=instance,
+            instances=Inflector().pluralize(instance)
         )
         return dedent(source_code).strip()
