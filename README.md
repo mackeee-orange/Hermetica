@@ -1,8 +1,6 @@
 # Hermetica
 
-
 [![CircleCI](https://circleci.com/gh/yoshiya0503/Hermetica/tree/master.svg?style=shield)](https://circleci.com/gh/yoshiya0503/Hermetica)
-
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](CONTRIBUTING.md#pull-requests)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
