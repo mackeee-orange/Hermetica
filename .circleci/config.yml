@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  pypi:
     docker:
       - image: circleci/python:3.6.1
     working_directory: ~/repo
@@ -30,6 +30,16 @@ jobs:
       - run:
           name: run build
           command: |
-            . venv/bin/activate
-            python setup.py sdist bdist_wheel
-            twine upload --repository pypi dist/*
+            echo 'dry run'
+            #. venv/bin/activate
+            #python setup.py sdist bdist_wheel
+            #twine upload --repository pypi dist/*
+
+workflows:
+  version: 2
+  release:
+    jobs:
+      - pypi:
+          filters:
+            branches:
+              only: master
