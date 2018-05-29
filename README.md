@@ -33,6 +33,14 @@ pip install hermetica
 
 # Usage
 
+## Overview the usage
+
+hermetica has some subcommands, to create scaffold api, decorator, model.
+
+* api (url and routing method base or class base or flask-restful)
+* model (database models, sqlalchemy or mongoengine)
+* decorator (you can insert some code before enter the api, like a 'authentication')
+
 ```
 → hermetica --help
 Usage: hermetica [OPTIONS] COMMAND [ARGS]...
@@ -66,7 +74,15 @@ Options:
   --help                          Show this message and exit.
 ```
 
-add api to your flask project.
+After create project scaffold, you will check `Pipfile` contents, if there are shortages in list of packages, you can
+add other packages into `Pipfile`, and lock your package.
+(We recommend you to use `pipenv` https://github.com/pypa/pipenv)
+
+```
+pipenv lock
+```
+
+* add api to your flask project.
 
 ```
 → hermetica api --help
@@ -82,7 +98,7 @@ Options:
   --help                          Show this message and exit.
 ```
 
-add model to your flask project.
+* add model to your flask project.
 
 ```
 → hermetica model --help
@@ -95,7 +111,7 @@ Options:
   --help                         Show this message and exit.
 ```
 
-add decorator to your flask project.
+* add decorator to your flask project.
 
 ```
 → hermetica decorator --help
