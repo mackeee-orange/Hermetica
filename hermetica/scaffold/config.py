@@ -19,10 +19,26 @@ class Config(object):
         self.db = db
         self.redis = redis
 
+    def create__init__(self):
+        source_code = """
+        #! /usr/bin/env python3
+        # -*- encoding: utf-8 -*-
+
+        class Config(object):
+            ENV = 'test'
+            {db}
+            {redis}
+        """.format(
+            db=self.create_sqlalchemy(),
+            redis=self.create_redis(),
+        )
+        return dedent(source_code).strip()
+
     def create_config(self, name='config', env='test'):
         source_code = """
         #! /usr/bin/env python3
         # -*- encoding: utf-8 -*-
+        from config import Config
 
         class {name}(object):
             ENV = '{env}'
@@ -54,3 +70,4 @@ class Config(object):
     def create_redis(self):
         if self.redis == 'redis':
             return "REDIS_URL = 'redis://:@redis:6379/0'"
+        return ''

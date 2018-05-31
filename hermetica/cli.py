@@ -63,7 +63,7 @@ def init(api, db, decorator, redis, docker):
             f.write(decorator.create_decorators())
 
     with open('config/__init__.py', 'w') as f:
-        f.write(config.create_config(name='config', env='test'))
+        f.write(config.create__init__())
     with open('config/development.py', 'w') as f:
         f.write(config.create_config(name='development', env='development'))
     with open('config/production.py', 'w') as f:
